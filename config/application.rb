@@ -10,6 +10,10 @@ module Pwd
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
+    
+    config.i18n.default_locale = :ja
+    config.active_record.default_timezone = :local
+    config.time_zone = "Asia/Tokyo"
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
