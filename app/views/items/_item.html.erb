@@ -1,0 +1,12 @@
+<p>
+  <%= item.name %>
+  :
+  <%= item.price %>
+  :
+<% if item.user.nickname.present? %>
+    購入者 <%= item.user.nickname %>
+<% else %>
+    会員No.<%= item.user.id %>
+  <% end %>
+
+</p>

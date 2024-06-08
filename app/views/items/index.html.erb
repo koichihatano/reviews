@@ -1,0 +1,8 @@
+<h1>購入商品一覧</h1>
+<% if user_signed_in? %>
+  <%= render @items %>
+<% else %>
+  <p>ログインしてください</p>
+<% end %>
+
+

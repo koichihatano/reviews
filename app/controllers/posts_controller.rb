@@ -1,9 +1,10 @@
 class PostsController < ApplicationController
 
-  before_action :set_post, only: %i[show edit update destroy]
+  before_action :set_post, only: %i[edit update destroy]
   
   def index
-     @posts = Post.order(id: :asc)
+    @posts = Post.includes(:user, :likes).order(created_at: :asc)
+    @likes_count_hash = Like.group(:post_id).count
   end
 
   def show
@@ -13,44 +14,31 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
   end
-
+  
   def create
-     @post = Post.new(post_params)
-     if @post.save
-      redirect_to @post, notice: "投稿しました"
-     else
-      flash.now[:alert] = "投稿に失敗しました"
-      render :new, status: :unprocessable_entity
-    end
+    post = current_user.posts.create!(post_params)
+    redirect_to post
   end
-
+  
   def edit
-    @post = Post.find(params[:id])
   end
 
   def update
-    if @post.update(post_params)
-      redirect_to @post, notice: "更新しました"
-    else
-      flash.now[:alert] = "更新に失敗しました"
-      render :edit, status: :unprocessable_entity
-    end
+    @post.update!(post_params)
+    redirect_to @post
   end
 
   def destroy
     @post.destroy!
-    redirect_to root_path, alert: "削除しました"
+    redirect_to root_path
   end
 
   private
     
-    def set_post
-    @post = Post.find(params[:id])
-    end  
-  
-    def post_params
-      params.require(:post).permit(:title, :content)  
-    end
-
-
+  def post_params
+    params.require(:post).permit(:content, :amazonurl)
+  end
+  def set_post
+    @post = current_user.posts.find(params[:id])
+  end  
 end

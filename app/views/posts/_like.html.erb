@@ -1,0 +1,16 @@
+<% unless defined?(is_liked) %>
+  <% is_liked = post.liked_by?(current_user) %>
+<% end %>
+
+<% unless defined?(likes_count) %>
+  <% likes_count = post.likes.count %>
+<% end %>
+
+<p id="<%= dom_id(post, :like) %>">
+  <% if is_liked %>
+    <%= link_to "★", post_likes_path(post), data: { turbo_method: :delete } %>
+  <% else %>
+    <%= link_to "☆", post_likes_path(post), data: { turbo_method: :post } %>
+  <% end %>
+  <%= likes_count %>
+</p>
