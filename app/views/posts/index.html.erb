@@ -1,5 +1,4 @@
 
-
 <h1>投稿一覧</h1>
 <table>
   <thead>
@@ -16,8 +15,6 @@
         <td><%= post.content %></td>
         <td>
           <%= link_to "詳細", post %>
-<%= link_to("オススメの薬",new_post_path, {class: "btn-gradient-3d-simple"}) %>
-
           <%= link_to "削除", post, data: { turbo_method: :delete, turbo_confirm: "削除してよろしいですか？" } %>
           <%= render "like", post: post, is_liked: post.likes.any? { |like| like.user_id == current_user.id } %>
         </td>
